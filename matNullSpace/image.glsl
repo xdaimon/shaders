@@ -201,6 +201,7 @@ bool intersect(in vec3 ro, in vec3 rd) {
 
 // This shader really needs to take into consideration shadowing. Especially since the specular component
 // shows up in places where there should be no light from the sun.
+// lighting function due to IQ at shadertoy.com
 vec3 lighting(in vec3 hit, in vec3 rd, in vec3 norm, in vec3 diffuseColor) {
 	vec3 ret;
 

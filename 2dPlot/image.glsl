@@ -21,7 +21,6 @@ float dist_plane(float p) {
 float dist_sphere(vec4 p) {
 	return length(p) - PLOT_RADIUS;
 }
-
 float smin(float a, float b) {
 	return (a * exp(-a * 32.) + b * exp(-b * 32.)) / (exp(-a * 32.) + exp(-b * 32.));
 }
@@ -68,8 +67,10 @@ float val(vec4 p) {
 	//return sin(x*y)/(sin(x*z)+1.2) + y; // tubular
 	//return (z*y*sin(x)-2.*x+cos(y));
 	//return 2.*z*(pow(w,time) - 3.*pow(x,time))*(1.-pow(y,time))+pow(pow(x,time)+pow(z,time),time) - (9.*pow(y,time)-1.)*(1.-pow(y,time));
-	return 1. / sqrt((x - 1.) * (x - 1.) + (z - 1.) * (z - 1.) + y * y) + 1. / sqrt((x + 1.) * (x + 1.) + (z + 1.) * (z + 1.) + y * y) + 1. / sqrt((x - 1.) * (x - 1.) + (z + 1.) * (z + 1.) + y * y) + 1. / sqrt((x + 1.) * (x + 1.) + (z - 1.) * (z - 1.) + y * y) - time;
-	//return 1./sqrt((x-1.)*(x-1.) + (z-1.)*(z-1.)) + 1./sqrt((x+1.)*(x+1.) + (z+1.)*(z+1.)) + 1./sqrt((x-1.)*(x-1.) + (z+1.)*(z+1.)) - 1./sqrt((x+1.)*(x+1.) + (z-1.)*(z-1.)) - y;
+	#define sS(X,Z) 1./sqrt((x+X)*(x+X) + (z+Z)*(z+Z) + y*y)
+	return sS(-1.,-1.) + sS(1.,1.) + sS(-1.,1.) - sS(1.,-1.) - time;
+	//#define SS(X,Z) 1./sqrt((x+X)*(x+X) + (z+Z)*(z+Z))
+	//return SS(-1.,-1.) + SS(1.,1.) + SS(-1.,1.) - SS(1.,-1.) - y;
 	//return x*x*z*z + x*x*y*y + z*z*y*y + x*y*z;
 	//return (z*y*sin(x)-2.*x+cos(y*z));
 	//return (4.*x+z*z*z + x*y - 4.)/10.;
@@ -186,6 +187,7 @@ float softshadow(in vec4 ro, in vec4 rd, in float mint, in float tmax) {
 	}
 	return clamp(res, 0.0, 1.0);
 }
+// shading function due to IQ at shadertoy.com
 vec3 shading(vec4 eye, float depth, vec4 dir) {
 	// shading
 	vec4 pos = eye + depth * dir;

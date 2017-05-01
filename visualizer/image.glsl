@@ -1,6 +1,9 @@
 #version 330
 precision highp float;
 
+// the following code is from https://github.com/kritzikratzi/Oscilloscope
+// thanks!
+
 const float EPS = 1E-6;
 const float TAU = 6.283185307179586;
 const float TAUR = 2.5066282746310002;
